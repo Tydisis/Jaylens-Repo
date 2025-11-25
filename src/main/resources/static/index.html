@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaylen's Spring Boot Application</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .card h3 {
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .card li:before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .tech-badge {
+            background: #667eea;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 5px;
+            font-size: 0.85rem;
+        }
+        
+        .contact-info {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .contact-info a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+        
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        
+        footer {
+            text-align: center;
+            color: white;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to Jaylen's Spring Boot Application</h1>
+            <p class="subtitle">Cloud Infrastructure & DevOps Solutions</p>
+            <span class="status-badge">🟢 Application Running</span>
+        </header>
+
+        <div class="content-grid">
+            <div class="card">
+                <h2>About Me</h2>
+                <p>Cloud infrastructure specialist with 3+ years managing enterprise customer relationships at AWS. I combine deep technical expertise in container orchestration with proven ability to drive business outcomes through consultative support.</p>
+                
+                <h3>Core Competencies</h3>
+                <ul>
+                    <li>Container Orchestration (EKS, ECS, Kubernetes)</li>
+                    <li>Infrastructure as Code (Terraform, CloudFormation)</li>
+                    <li>CI/CD Pipeline Design & Implementation</li>
+                    <li>Cloud Architecture & Migration Strategies</li>
+                    <li>Enterprise Technical Support (98% CSAT)</li>
+                </ul>
+                
+                <div class="tech-stack">
+                    <span class="tech-badge">AWS</span>
+                    <span class="tech-badge">Kubernetes</span>
+                    <span class="tech-badge">Docker</span>
+                    <span class="tech-badge">Terraform</span>
+                    <span class="tech-badge">Linux</span>
+                    <span class="tech-badge">Spring Boot</span>
+                    <span class="tech-badge">CI/CD</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Professional Experience</h2>
+                
+                <h3>Amazon Web Services</h3>
+                <p><strong>Cloud Support Engineer</strong> | June 2022 - Present</p>
+                <ul>
+                    <li>EKS Subject Matter Expert specializing in container technologies</li>
+                    <li>Managed 50+ enterprise customers including Fortune 500 companies</li>
+                    <li>Resolved 1000+ technical cases with 98% customer satisfaction</li>
+                    <li>Technical advisor for telecom providers on 5G infrastructure</li>
+                    <li>Conducted business reviews demonstrating infrastructure optimization</li>
+                </ul>
+                
+                <h3>Key Projects</h3>
+                <ul>
+                    <li><strong>Karpenter Documentation:</strong> Created troubleshooting workflows for AWS autoscaling</li>
+                    <li><strong>EKS Hybrid Nodes:</strong> Developed customer-facing documentation for GPU workloads</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>Technical Skills</h2>
+                
+                <h3>Cloud & Containers</h3>
+                <ul>
+                    <li>Elastic Kubernetes Service (EKS)</li>
+                    <li>Elastic Container Service (ECS)</li>
+                    <li>AWS Batch</li>
+                    <li>EC2 & Linux Administration</li>
+                </ul>
+                
+                <h3>Infrastructure as Code</h3>
+                <ul>
+                    <li>Terraform</li>
+                    <li>CloudFormation</li>
+                    <li>CI/CD Pipelines</li>
+                </ul>
+                
+                <h3>Certifications</h3>
+                <ul>
+                    <li>AWS Certified Solutions Architect Associate</li>
+                </ul>
+                
+                <h3>Education</h3>
+                <p><strong>University of Georgia</strong><br>
+                BBA Management Information Systems</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Contact Information</h2>
+            <div class="contact-info">
+                <a href="mailto:jaylen770@gmail.com">📧 jaylen770@gmail.com</a>
+                <a href="tel:770-243-0235">📱 (770) 243-0235</a>
+                <a href="https://www.linkedin.com/in/jaylen-steward" target="_blank">💼 LinkedIn</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>Powered by Spring Boot | Deployed on AWS Infrastructure</p>
+            <p>&copy; 2025 Jaylen Steward. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
+
