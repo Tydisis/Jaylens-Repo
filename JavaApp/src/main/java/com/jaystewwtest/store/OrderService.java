@@ -1,6 +1,4 @@
-package com.jaystewwtest;
-
-import com.jaystewwtest.store.StripePaymentService;
+package com.jaystewwtest.store;
 
 public class OrderService {
     public void placeOrder() {
