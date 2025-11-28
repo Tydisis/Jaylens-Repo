@@ -16,11 +16,13 @@ This repository contains a Spring Boot application with automated Docker image b
 
 Pull and run the latest image:
 ```bash
-docker pull <dockerhub-username>/spring-boot-app:latest
-docker run -p 8080:8080 <dockerhub-username>/spring-boot-app:latest
+docker pull jaystew/spring-boot-app:latest
+docker run -p 8080:8080 jaystew/spring-boot-app:latest
 ```
 
-Access the application at: http://localhost:8080
+Access the application:
+- **Live on AWS**: http://k8s-default-springbo-980d1a91d7-1024312859.us-east-1.elb.amazonaws.com
+- **Local**: http://localhost:8080
 
 ### Local Development
 
