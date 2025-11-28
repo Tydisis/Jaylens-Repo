@@ -47,7 +47,7 @@ kubectl get pods -l app=spring-boot-app
 
 ## 🛠️ Technologies
 
-**Application**: Spring Boot 4.0, Java 25, Maven  
+**Application**: Spring Boot 4.0, Java 17, Maven  
 **Container**: Docker, Multi-stage builds  
 **Orchestration**: Kubernetes, Amazon EKS  
 **CI/CD**: GitHub Actions, ARC  

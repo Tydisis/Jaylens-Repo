@@ -7,7 +7,7 @@ Spring Boot 4.0 application with production-ready observability features.
 ## Technology Stack
 
 - **Framework**: Spring Boot 4.0.0
-- **Java Version**: 25 (Eclipse Temurin)
+- **Java Version**: 17 (Eclipse Temurin)
 - **Build Tool**: Maven 3.9+ with wrapper
 - **Observability**: Spring Boot Actuator + Micrometer Prometheus
 
