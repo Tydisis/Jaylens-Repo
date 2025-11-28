@@ -17,7 +17,15 @@ jobs:
     - name: Start Docker daemon
       run: |
         sudo dockerd > /tmp/dockerd.log 2>&1 &
-        sleep 10
+        echo "Waiting for Docker daemon to start..."
+        for i in {1..30}; do
+          if docker info >/dev/null 2>&1; then
+            echo "Docker daemon is ready!"
+            break
+          fi
+          echo "Waiting... ($i/30)"
+          sleep 2
+        done
         docker info
         
     - name: Log in to Docker Hub
