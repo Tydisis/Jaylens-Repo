@@ -16,10 +16,10 @@ jobs:
     
     - name: Wait for Docker
       run: |
-        echo "Waiting for Docker daemon to start..."
-        for i in {1..60}; do
+        echo "Waiting for Docker daemon..."
+        for i in {1..30}; do
           if docker info >/dev/null 2>&1; then
-            echo "Docker is ready!"
+            echo "Docker ready!"
             docker info
             break
           fi
