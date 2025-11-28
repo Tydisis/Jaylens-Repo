@@ -79,12 +79,20 @@ The application is deployed to EKS and exposed via AWS Application Load Balancer
 
 **URL**: http://k8s-default-springbo-980d1a91d7-1024312859.us-east-1.elb.amazonaws.com
 
+**Grafana Dashboard**: http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com/grafana
+- Username: `admin`
+- Password: `admin123`
+
 ### Infrastructure
 
 - **EKS Cluster**: cicd-cluster (us-east-1)
 - **Deployment**: 2 replicas of `jaystew/spring-boot-app:latest`
 - **Service**: NodePort (port 80 → 8080)
 - **Ingress**: AWS ALB Controller managing Application Load Balancer
+- **Monitoring**: Prometheus + Grafana stack
+  - Prometheus for metrics collection
+  - Grafana for visualization and dashboards
+  - ServiceMonitor for Spring Boot metrics
 - **Node Groups**:
   - `arc-nodes` - t3.medium (2 nodes) for GitHub Actions runners
   - `standard-workers` - for application workloads
