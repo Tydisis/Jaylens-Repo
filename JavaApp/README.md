@@ -5,3 +5,4 @@
 - Docker builds
 - Push to Docker Hub
 
+Test build
