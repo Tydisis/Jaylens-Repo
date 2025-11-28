@@ -36,3 +36,8 @@ jobs:
         docker tag ${{ secrets.DOCKER_USERNAME }}/spring-boot-app:latest ${{ secrets.DOCKER_USERNAME }}/spring-boot-app:${{ github.sha }}
         docker push ${{ secrets.DOCKER_USERNAME }}/spring-boot-app:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/spring-boot-app:${{ github.sha }}
+    
+    - name: Update Kubernetes deployment
+      run: |
+        kubectl rollout restart deployment/spring-boot-app -n default
+        kubectl rollout status deployment/spring-boot-app -n default --timeout=120s
