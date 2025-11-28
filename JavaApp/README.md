@@ -7,3 +7,4 @@
 
 Test build
 Final test
+Build with 60s wait
