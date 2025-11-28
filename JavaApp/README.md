@@ -10,3 +10,4 @@ Final test
 Build with 60s wait
 Correct port test
 Test with password
+Build with correct secret
