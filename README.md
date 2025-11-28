@@ -49,14 +49,27 @@ docker run -p 8080:8080 spring-boot-app
 **Workflow Process:**
 1. Developer pushes code changes to `JavaApp/` directory
 2. GitHub webhook triggers workflow on self-hosted ARC runner
-3. Runner pod spawns on EKS cluster (t3.medium nodes)
-4. Multi-stage Docker build:
+3. **Build Validation**: Maven compiles and runs tests (`./mvnw clean verify`)
+4. **Quality Gate**: Build fails if tests don't pass
+5. Runner pod spawns on EKS cluster (t3.medium nodes)
+6. Multi-stage Docker build:
    - Stage 1: Maven build with dependency caching
    - Stage 2: Minimal JRE runtime image
-5. Docker image pushed to Docker Hub with tags:
+7. Docker image pushed to Docker Hub with tags:
    - `latest` - always points to most recent build
    - `<commit-sha>` - immutable version for rollbacks
-6. Runner pod terminates after job completion
+8. **Automated Deployment**: Kubernetes deployment updated with new image SHA
+9. **Rolling Update**: Zero-downtime deployment with health checks
+10. Runner pod terminates after job completion
+
+**CI/CD Best Practices Implemented:**
+- ✅ Automated testing before deployment
+- ✅ Immutable image tags (commit SHA)
+- ✅ Zero-downtime rolling updates
+- ✅ Build artifact versioning
+- ✅ Automated deployment pipeline
+- ✅ Infrastructure as Code (Kubernetes manifests)
+- ✅ Monitoring and observability (Prometheus/Grafana)
 
 **Benefits:**
 - **Cost Efficient**: Runners scale to zero when idle
