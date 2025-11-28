@@ -14,19 +14,18 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Start Docker daemon
+    - name: Wait for Docker
       run: |
-        sudo dockerd > /tmp/dockerd.log 2>&1 &
-        echo "Waiting for Docker daemon to start..."
+        echo "Waiting for Docker daemon..."
         for i in {1..30}; do
           if docker info >/dev/null 2>&1; then
-            echo "Docker daemon is ready!"
+            echo "Docker is ready!"
+            docker info
             break
           fi
           echo "Waiting... ($i/30)"
           sleep 2
         done
-        docker info
         
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
