@@ -15,8 +15,8 @@
 
 ### Monitoring Dashboard
 - **Grafana**: http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com/grafana
-  - Username: `admin`
-  - Password: `admin123`
+  - Username: `continuous`
+  - Password: `improvement`
 
 ## Validation Steps
 
@@ -41,7 +41,7 @@ kubectl port-forward -n monitoring svc/prometheus-kube-prometheus-prometheus 909
 ### 3. Verify Grafana Dashboards
 
 1. Access Grafana: http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com/grafana
-2. Login with admin/admin123
+2. Login with continuous/improvement
 3. Navigate to Dashboards
 4. Pre-installed dashboards:
    - **Kubernetes / Compute Resources / Cluster**
