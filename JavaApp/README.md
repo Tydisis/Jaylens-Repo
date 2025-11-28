@@ -2,3 +2,4 @@
 
 ## Features
 - Automated CI/CD
+- Docker builds
