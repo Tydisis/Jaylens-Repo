@@ -12,3 +12,4 @@ Correct port test
 Test with password
 Build with correct secret
 # Workflow trigger - Fri Nov 28 18:04:09 EST 2025
+# Test RBAC - Fri Nov 28 18:09:54 EST 2025
