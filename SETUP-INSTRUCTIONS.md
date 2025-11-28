@@ -1,33 +1,162 @@
-# Docker CI/CD Setup Instructions
+# Complete Infrastructure Setup Guide
 
-## What Was Created
+## Architecture Overview
 
-1. **Dockerfile** (`JavaApp/Dockerfile`) - Multi-stage build for Spring Boot app
-2. **GitHub Actions Workflow** (`.github/workflows/build-and-push.yml`) - Auto-builds on push
-3. **.dockerignore** - Optimizes Docker build
+This project demonstrates a production-grade CI/CD pipeline with:
+- **EKS Cluster**: Kubernetes cluster for application hosting
+- **GitHub Actions Runner Controller (ARC)**: Self-hosted runners on Kubernetes
+- **Docker-in-Docker**: Containerized builds within Kubernetes
+- **AWS Load Balancer Controller**: Automatic ALB provisioning via Ingress
+- **Prometheus + Grafana**: Full observability stack
+- **Spring Boot Application**: With Actuator metrics and health checks
 
-## Setup Steps
+## Infrastructure Components
 
-### 1. Add Docker Hub Secrets to GitHub
+### 1. EKS Cluster Setup
 
-Go to: https://github.com/Tydisis/Jaylens-Repo/settings/secrets/actions
+**Cluster**: `cicd-cluster` (us-east-1)
 
-Add these secrets:
-- `DOCKER_USERNAME` - Your Docker Hub username
-- `DOCKER_PASSWORD` - Your Docker Hub password or access token
+**Node Groups**:
+- `arc-nodes`: t3.medium (2 nodes) - GitHub Actions runners
+- `standard-workers`: Application workloads
 
-### 2. Test Locally (Optional)
-
+**Created with eksctl**:
 ```bash
-cd ~/Downloads/store/JavaApp
-docker build -t spring-boot-app .
-docker run -p 8080:8080 spring-boot-app
+eksctl create cluster --name cicd-cluster --region us-east-1
+eksctl create nodegroup --cluster cicd-cluster --name arc-nodes --node-type t3.medium --nodes 2
 ```
 
-### 3. Push to GitHub
+### 2. Actions Runner Controller (ARC)
 
+**Installation**:
 ```bash
-cd ~/Downloads/store
+# Install controller
+helm install arc-controller \
+  --namespace arc-systems \
+  --create-namespace \
+  oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller
+
+# Install runner scale set
+helm install arc-runner-set \
+  --namespace arc-runners \
+  --create-namespace \
+  --set githubConfigUrl="https://github.com/Tydisis/Jaylens-Repo" \
+  --set githubConfigSecret.github_token="YOUR_PAT" \
+  oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
+```
+
+**Runner Configuration**: Docker-in-Docker sidecar for containerized builds
+
+### 3. AWS Load Balancer Controller
+
+**Prerequisites**:
+```bash
+# Enable OIDC provider
+eksctl utils associate-iam-oidc-provider --region=us-east-1 --cluster=cicd-cluster --approve
+
+# Create IAM policy and service account
+eksctl create iamserviceaccount \
+  --cluster=cicd-cluster \
+  --namespace=kube-system \
+  --name=aws-load-balancer-controller \
+  --role-name AmazonEKSLoadBalancerControllerRole \
+  --attach-policy-arn=arn:aws:iam::ACCOUNT_ID:policy/AWSLoadBalancerControllerIAMPolicy \
+  --approve
+```
+
+**Installation**:
+```bash
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+  -n kube-system \
+  --set clusterName=cicd-cluster \
+  --set serviceAccount.create=false \
+  --set serviceAccount.name=aws-load-balancer-controller
+```
+
+### 4. Monitoring Stack (Prometheus + Grafana)
+
+**Installation**:
+```bash
+helm install prometheus prometheus-community/kube-prometheus-stack \
+  --namespace monitoring \
+  --create-namespace \
+  --set grafana.adminPassword=admin123 \
+  --set prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues=false
+```
+
+**Access**: http://ALB_URL/grafana/ (admin/admin123)
+
+### 5. Application Deployment
+
+**Kubernetes Resources**:
+- `k8s/deployment.yaml` - Application deployment (2 replicas)
+- `k8s/ingress.yaml` - ALB ingress for app and Grafana
+- `k8s/servicemonitor.yaml` - Prometheus metrics scraping
+
+**Deploy**:
+```bash
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/ingress.yaml
+kubectl apply -f k8s/servicemonitor.yaml
+```
+
+## GitHub Secrets Required
+
+Add to: https://github.com/Tydisis/Jaylens-Repo/settings/secrets/actions
+
+- `DOCKER_USERNAME` - Docker Hub username
+- `DOCKER_PASSWORD` - Docker Hub password/token
+
+## CI/CD Workflow
+
+**Trigger**: Push to `JavaApp/**` directory
+
+**Steps**:
+1. Maven build and test validation
+2. Multi-stage Docker build
+3. Push to Docker Hub (latest + commit SHA tags)
+4. Update Kubernetes deployment with new image
+5. Rolling update with zero downtime
+
+## Resource Tagging
+
+All resources tagged with `auto-delete: never`:
+- Node groups: `arc-nodes`, `standard-workers`
+- Auto Scaling Groups
+- Application Load Balancer
+
+## Validation
+
+**Application**: http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com
+
+**Monitoring**: http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com/grafana/
+
+**Health Check**: `/actuator/health`
+
+**Metrics**: `/actuator/prometheus`
+
+See [MONITORING.md](MONITORING.md) for detailed monitoring validation.
+
+## Troubleshooting
+
+**Check runner pods**:
+```bash
+kubectl get pods -n arc-runners
+```
+
+**Check application pods**:
+```bash
+kubectl get pods -l app=spring-boot-app
+kubectl logs -l app=spring-boot-app
+```
+
+**Check ingress**:
+```bash
+kubectl get ingress -A
+kubectl describe ingress spring-boot-app
+```
+
+**Check workflow runs**: https://github.com/Tydisis/Jaylens-Repo/actions
 git add .
 git commit -m "Add Docker CI/CD pipeline"
 git push

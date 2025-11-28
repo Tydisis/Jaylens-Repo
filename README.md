@@ -3,14 +3,31 @@ A repo for pet projects
 
 ## Spring Boot Application with CI/CD
 
-This repository contains a Spring Boot application with automated Docker image builds.
+This repository contains a Spring Boot application with automated Docker image builds and Kubernetes deployment.
+
+### Live Demo
+
+**Application**: http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com
+
+**Monitoring Dashboard**: http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com/grafana/
+- Username: `admin`
+- Password: `admin123`
+
+**Metrics Endpoints**:
+- Health: `/actuator/health`
+- Prometheus: `/actuator/prometheus`
+- Metrics: `/actuator/metrics`
 
 ### Features
 
-- **Automated Docker Builds**: Every push to `JavaApp/` triggers an automatic Docker image build
-- **Self-Hosted Runners**: Uses Actions Runner Controller (ARC) on EKS for fast, scalable builds
-- **Multi-Stage Builds**: Optimized Docker images using Eclipse Temurin JDK/JRE
-- **Automatic Versioning**: Images tagged with `latest` and commit SHA
+- **Automated CI/CD Pipeline**: GitHub Actions with self-hosted runners on EKS
+- **Docker-in-Docker**: Containerized builds in Kubernetes
+- **Zero-Downtime Deployments**: Rolling updates with health checks
+- **Monitoring & Observability**: Prometheus + Grafana stack
+- **Production Metrics**: Spring Boot Actuator with Prometheus integration
+- **Infrastructure as Code**: Kubernetes manifests for reproducible deployments
+- **Immutable Deployments**: Image tagging with commit SHA for traceability
+- **Auto-Scaling Infrastructure**: ARC runners scale from 0 based on demand
 
 ### Docker Image
 
@@ -80,9 +97,10 @@ docker run -p 8080:8080 spring-boot-app
 View workflow runs: [Actions Tab](../../actions)  
 Monitor runners: `kubectl get pods -n arc-runners -w`
 
-### Setup
+### Setup & Documentation
 
-See [SETUP-INSTRUCTIONS.md](SETUP-INSTRUCTIONS.md) for complete setup guide.
+- **Setup Guide**: [SETUP-INSTRUCTIONS.md](SETUP-INSTRUCTIONS.md) - Complete infrastructure setup
+- **Monitoring Guide**: [MONITORING.md](MONITORING.md) - Observability stack validation and usage
 
 ## Kubernetes Deployment
 
