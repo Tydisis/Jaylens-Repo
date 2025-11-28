@@ -48,13 +48,19 @@ jobs:
         docker push ${IMAGE_TAG}:latest
         docker push ${IMAGE_TAG}:${{ github.sha }}
     
-    - name: Install kubectl
+    - name: Install AWS CLI and kubectl
       run: |
+        # Install AWS CLI
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip -q awscliv2.zip
+        sudo ./aws/install
+        
+        # Install kubectl
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
         chmod +x kubectl
         sudo mv kubectl /usr/local/bin/
     
-    - name: Configure AWS and kubectl
+    - name: Configure kubectl for EKS
       run: |
         aws eks update-kubeconfig --name cicd-cluster --region us-east-1
     
