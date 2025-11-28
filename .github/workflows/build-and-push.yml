@@ -48,6 +48,10 @@ jobs:
         docker push ${IMAGE_TAG}:latest
         docker push ${IMAGE_TAG}:${{ github.sha }}
     
+    - name: Configure kubectl
+      run: |
+        aws eks update-kubeconfig --name cicd-cluster --region us-east-1
+    
     - name: Update Kubernetes deployment
       run: |
         kubectl set image deployment/spring-boot-app spring-boot-app=${{ secrets.DOCKER_USERNAME }}/spring-boot-app:${{ github.sha }} -n default
