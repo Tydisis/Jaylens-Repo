@@ -19,6 +19,7 @@ jobs:
       with:
         java-version: '25'
         distribution: 'temurin'
+        cache: 'maven'
     
     - name: Build and test with Maven
       run: |
@@ -37,16 +38,24 @@ jobs:
           sleep 1
         done
         
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      with:
+        driver-opts: network=host
+        
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
     
     - name: Build and push
-      run: |
-        cd JavaApp
-        IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/spring-boot-app
-        docker build -t ${IMAGE_TAG}:latest -t ${IMAGE_TAG}:${{ github.sha }} .
-        docker push ${IMAGE_TAG}:latest
-        docker push ${IMAGE_TAG}:${{ github.sha }}
+      uses: docker/build-push-action@v5
+      with:
+        context: ./JavaApp
+        push: true
+        tags: |
+          ${{ secrets.DOCKER_USERNAME }}/spring-boot-app:latest
+          ${{ secrets.DOCKER_USERNAME }}/spring-boot-app:${{ github.sha }}
+        cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/spring-boot-app:buildcache
+        cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/spring-boot-app:buildcache,mode=max
     
     - name: Install AWS CLI and kubectl
       run: |
