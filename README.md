@@ -21,7 +21,7 @@ docker run -p 8080:8080 jaystew/spring-boot-app:latest
 ```
 
 Access the application:
-- **Live on AWS**: http://k8s-default-springbo-980d1a91d7-1024312859.us-east-1.elb.amazonaws.com
+- **Live on AWS**: http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com
 - **Local**: http://localhost:8080
 
 ### Local Development
@@ -90,7 +90,7 @@ The application is deployed to EKS and exposed via AWS Application Load Balancer
 
 ### Live Application
 
-**URL**: http://k8s-default-springbo-980d1a91d7-1024312859.us-east-1.elb.amazonaws.com
+**URL**: http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com
 
 **Grafana Dashboard**: http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com/grafana
 - Username: `admin`
