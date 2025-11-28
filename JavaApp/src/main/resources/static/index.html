@@ -34,6 +34,23 @@
             text-align: center;
         }
         
+        .monitoring-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .monitoring-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+        }
+        
         h1 {
             color: #667eea;
             font-size: 2.5rem;
@@ -145,6 +162,8 @@
             <h1>Welcome to Jaylen's Spring Boot Application</h1>
             <p class="subtitle">Cloud Infrastructure & DevOps Solutions</p>
             <span class="status-badge">🟢 Application Running</span>
+            <br>
+            <a href="/grafana" class="monitoring-button" target="_blank">📊 View Monitoring Dashboard</a>
         </header>
 
         <div class="content-grid">
@@ -232,6 +251,16 @@
                 <li>Automated builds using GitHub Actions with self-hosted runners</li>
                 <li>Docker-in-Docker for containerized builds on Kubernetes</li>
                 <li>Multi-stage Docker builds for optimized images</li>
+                <li>Prometheus metrics exposed at /actuator/prometheus</li>
+                <li>Grafana dashboards for real-time monitoring</li>
+            </ul>
+            
+            <h3>Monitoring & Observability</h3>
+            <ul>
+                <li>Spring Boot Actuator for health checks and metrics</li>
+                <li>Prometheus for metrics collection and storage</li>
+                <li>Grafana for visualization and alerting</li>
+                <li>Real-time application and infrastructure monitoring</li>
             </ul>
             
             <div class="contact-info" style="margin-top: 1.5rem;">
