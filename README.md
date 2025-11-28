@@ -28,6 +28,7 @@ GitHub → Actions Runner (EKS) → Docker Build → Docker Hub → K8s Deployme
 - **[APPLICATION.md](docs/APPLICATION.md)** - Spring Boot app details, dependencies, local development
 - **[KUBERNETES.md](docs/KUBERNETES.md)** - K8s resources, deployment configuration, commands
 - **[CICD.md](docs/CICD.md)** - GitHub Actions workflow, pipeline stages, best practices
+- **[VISITOR-COUNTER.md](docs/VISITOR-COUNTER.md)** - Visitor tracking implementation, rate limiting, architecture
 - **[MONITORING.md](docs/MONITORING.md)** - Observability stack, metrics, validation
 - **[INFRASTRUCTURE.md](docs/INFRASTRUCTURE.md)** - Complete setup guide, EKS cluster, ARC installation
 
