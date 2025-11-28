@@ -10,26 +10,21 @@ on:
 jobs:
   build:
     runs-on: arc-runner-set
+    container:
+      image: gcr.io/kaniko-project/executor:debug
+      options: --user root
     
     steps:
     - uses: actions/checkout@v4
     
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-    
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-    
-    - name: Build and push
-      uses: docker/build-push-action@v5
-      with:
-        context: ./JavaApp
-        push: true
-        tags: |
-          ${{ secrets.DOCKER_USERNAME }}/spring-boot-app:latest
-          ${{ secrets.DOCKER_USERNAME }}/spring-boot-app:${{ github.sha }}
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+    - name: Build and push with Kaniko
+      shell: sh
+      run: |
+        echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(echo -n ${{ secrets.DOCKER_USERNAME }}:${{ secrets.DOCKER_PASSWORD }} | base64)\"}}}" > /kaniko/.docker/config.json
+        /kaniko/executor \
+          --context=./JavaApp \
+          --dockerfile=./JavaApp/Dockerfile \
+          --destination=${{ secrets.DOCKER_USERNAME }}/spring-boot-app:latest \
+          --destination=${{ secrets.DOCKER_USERNAME }}/spring-boot-app:${{ github.sha }} \
+          --cache=true \
+          --cache-repo=${{ secrets.DOCKER_USERNAME }}/spring-boot-app-cache
