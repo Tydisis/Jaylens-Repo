@@ -68,3 +68,39 @@ Monitor runners: `kubectl get pods -n arc-runners -w`
 ### Setup
 
 See [SETUP-INSTRUCTIONS.md](SETUP-INSTRUCTIONS.md) for complete setup guide.
+
+## Kubernetes Deployment
+
+The application is deployed to EKS and exposed via AWS Application Load Balancer.
+
+### Live Application
+
+**URL**: http://k8s-default-springbo-980d1a91d7-1024312859.us-east-1.elb.amazonaws.com
+
+### Infrastructure
+
+- **EKS Cluster**: cicd-cluster (us-east-1)
+- **Deployment**: 2 replicas of `jaystew/spring-boot-app:latest`
+- **Service**: NodePort (port 80 → 8080)
+- **Ingress**: AWS ALB Controller managing Application Load Balancer
+- **Node Groups**:
+  - `arc-nodes` - t3.medium (2 nodes) for GitHub Actions runners
+  - `standard-workers` - for application workloads
+
+### Kubernetes Resources
+
+```bash
+# View deployment
+kubectl get deployment spring-boot-app
+
+# View pods
+kubectl get pods -l app=spring-boot-app
+
+# View service
+kubectl get svc spring-boot-app
+
+# View ingress and ALB
+kubectl get ingress spring-boot-app
+```
+
+All resources tagged with `auto-delete: never` for persistence.
