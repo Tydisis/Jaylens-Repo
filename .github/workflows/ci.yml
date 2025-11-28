@@ -1,11 +1,13 @@
-name: Build and Push Docker Image
+name: CI - Build and Test
 
 on:
-  push:
-    branches: [ main, master ]
+  pull_request:
     paths:
       - 'JavaApp/**'
-  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'JavaApp/**'
 
 jobs:
   build:
@@ -14,29 +16,22 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Set up JDK 25
+    - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
-        java-version: '25'
+        java-version: '17'
         distribution: 'temurin'
         cache: 'maven'
     
-    - name: Build and test with Maven
+    - name: Build with Maven
       run: |
         cd JavaApp
-        ./mvnw clean verify
+        mvn clean package -DskipTests
     
-    - name: Wait for Docker
+    - name: Run tests
       run: |
-        echo "Waiting for Docker daemon..."
-        for i in {1..30}; do
-          if docker info >/dev/null 2>&1; then
-            echo "Docker ready!"
-            docker info
-            break
-          fi
-          sleep 1
-        done
+        cd JavaApp
+        mvn test
         
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
@@ -56,14 +51,3 @@ jobs:
           ${{ secrets.DOCKER_USERNAME }}/spring-boot-app:${{ github.sha }}
         cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/spring-boot-app:buildcache
         cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/spring-boot-app:buildcache,mode=max
-    
-    - name: Install kubectl
-      run: |
-        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-        chmod +x kubectl
-        sudo mv kubectl /usr/local/bin/
-    
-    - name: Update Kubernetes deployment
-      run: |
-        kubectl set image deployment/spring-boot-app spring-boot-app=${{ secrets.DOCKER_USERNAME }}/spring-boot-app:${{ github.sha }} -n default
-        kubectl rollout status deployment/spring-boot-app -n default --timeout=120s

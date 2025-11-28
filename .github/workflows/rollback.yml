@@ -1,0 +1,41 @@
+name: Rollback Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Docker image tag to rollback to (commit SHA or "latest")'
+        required: true
+        type: string
+
+jobs:
+  rollback:
+    runs-on: arc-runner-set
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install kubectl
+      run: |
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        chmod +x kubectl
+        sudo mv kubectl /usr/local/bin/
+    
+    - name: Get current deployment image
+      id: current
+      run: |
+        CURRENT_IMAGE=$(kubectl get deployment spring-boot-app -n default -o jsonpath='{.spec.template.spec.containers[0].image}')
+        echo "Current image: $CURRENT_IMAGE"
+        echo "image=$CURRENT_IMAGE" >> $GITHUB_OUTPUT
+    
+    - name: Rollback deployment
+      run: |
+        echo "Rolling back from ${{ steps.current.outputs.image }} to ${{ secrets.DOCKER_USERNAME }}/spring-boot-app:${{ inputs.image_tag }}"
+        kubectl set image deployment/spring-boot-app spring-boot-app=${{ secrets.DOCKER_USERNAME }}/spring-boot-app:${{ inputs.image_tag }} -n default
+        kubectl rollout status deployment/spring-boot-app -n default --timeout=120s
+    
+    - name: Verify rollback
+      run: |
+        NEW_IMAGE=$(kubectl get deployment spring-boot-app -n default -o jsonpath='{.spec.template.spec.containers[0].image}')
+        echo "Rollback complete. New image: $NEW_IMAGE"
+        kubectl get pods -n default -l app=spring-boot-app
