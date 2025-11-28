@@ -1,10 +1,10 @@
-package com.jaystewwtest.store;
+package com.jaystewwtest.demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class StoreApplicationTests {
+class DemoApplicationTests {
 
 	@Test
 	void contextLoads() {
