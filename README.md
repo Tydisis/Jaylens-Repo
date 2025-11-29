@@ -4,7 +4,7 @@ Production-grade Spring Boot application with automated CI/CD pipeline on Amazon
 
 ## 🚀 Live Demo
 
-**Application**: [http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com](http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com)
+**Application**: [http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com](http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com) *(Please ask to see the live version as I scale it down for cost savings)*
 
 **Grafana Dashboard**: [http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com/grafana/](http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com/grafana/) (continuous/improvement)
 
