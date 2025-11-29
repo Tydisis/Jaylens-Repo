@@ -15,6 +15,9 @@ jobs:
   toggle-alb:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
@@ -44,12 +47,27 @@ jobs:
         kubectl rollout status deployment/aws-load-balancer-controller -n kube-system --timeout=120s
         kubectl rollout status deployment/spring-boot-app -n default --timeout=300s
         echo "✅ ALB and application scaled up"
-        echo "⏳ ALB will be provisioned in ~3 minutes"
+        echo "⏳ Waiting for ALB to provision..."
         sleep 180
-        kubectl get ingress -n default
 
-    - name: Get ALB URL
+    - name: Update README with new ALB URL
       if: ${{ github.event.inputs.action == 'on' }}
       run: |
         ALB_URL=$(kubectl get ingress spring-boot-ingress -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-        echo "🌐 Application URL: http://$ALB_URL"
+        echo "🌐 New ALB URL: http://$ALB_URL"
+        
+        # Update README.md with new ALB URL
+        sed -i "s|**Application**: http://.*|**Application**: [http://$ALB_URL](http://$ALB_URL)|" README.md
+        sed -i "s|**Grafana Dashboard**: http://.*|**Grafana Dashboard**: [http://$ALB_URL/grafana/](http://$ALB_URL/grafana/) (continuous/improvement)|" README.md
+        
+        # Show changes
+        git diff README.md
+
+    - name: Commit and push README changes
+      if: ${{ github.event.inputs.action == 'on' }}
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add README.md
+        git commit -m "Update ALB URLs in README [skip ci]" || echo "No changes to commit"
+        git push
