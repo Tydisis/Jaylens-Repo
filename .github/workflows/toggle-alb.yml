@@ -1,0 +1,55 @@
+name: Toggle ALB
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'ALB Action'
+        required: true
+        type: choice
+        options:
+          - 'on'
+          - 'off'
+
+jobs:
+  toggle-alb:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Configure kubectl
+      run: |
+        aws eks update-kubeconfig --name cicd-cluster --region us-east-1
+
+    - name: Turn ALB OFF
+      if: ${{ github.event.inputs.action == 'off' }}
+      run: |
+        echo "Scaling down ALB controller and application..."
+        kubectl scale deployment aws-load-balancer-controller -n kube-system --replicas=0
+        kubectl scale deployment spring-boot-app -n default --replicas=0
+        echo "✅ ALB and application scaled down"
+        echo "⚠️  ALB will be deleted in ~5 minutes by AWS"
+
+    - name: Turn ALB ON
+      if: ${{ github.event.inputs.action == 'on' }}
+      run: |
+        echo "Scaling up ALB controller and application..."
+        kubectl scale deployment aws-load-balancer-controller -n kube-system --replicas=2
+        kubectl scale deployment spring-boot-app -n default --replicas=2
+        kubectl rollout status deployment/aws-load-balancer-controller -n kube-system --timeout=120s
+        kubectl rollout status deployment/spring-boot-app -n default --timeout=300s
+        echo "✅ ALB and application scaled up"
+        echo "⏳ ALB will be provisioned in ~3 minutes"
+        sleep 180
+        kubectl get ingress -n default
+
+    - name: Get ALB URL
+      if: ${{ github.event.inputs.action == 'on' }}
+      run: |
+        ALB_URL=$(kubectl get ingress spring-boot-ingress -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+        echo "🌐 Application URL: http://$ALB_URL"
