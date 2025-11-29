@@ -148,29 +148,15 @@
             text-decoration: underline;
         }
         
-        .logs-container {
-            background: #1e1e1e;
-            color: #d4d4d4;
-            padding: 1rem;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            overflow-x: auto;
-            margin: 1rem 0;
-            border: 1px solid #667eea;
+        .k8s-logo {
+            text-align: center;
+            margin: 1.5rem 0;
         }
         
-        .logs-container .log-line {
-            margin: 0.2rem 0;
-            white-space: nowrap;
-        }
-        
-        .logs-container .log-info {
-            color: #4ec9b0;
-        }
-        
-        .logs-container .log-timestamp {
-            color: #ce9178;
+        .k8s-logo img {
+            width: 150px;
+            height: 150px;
+            filter: drop-shadow(0 4px 8px rgba(102, 126, 234, 0.3));
         }
         
         nav {
@@ -230,12 +216,8 @@
             <span class="status-badge">🟢 Application Running</span>
             <span class="status-badge" id="visitor-badge">👥 Loading visitors...</span>
             
-            <div class="logs-container">
-                <div class="log-line"><span class="log-timestamp">2025-11-29T00:06:54.618Z</span> <span class="log-info">INFO</span> --- Starting DemoApplication v0.0.1-SNAPSHOT using Java 17</div>
-                <div class="log-line"><span class="log-timestamp">2025-11-29T00:06:57.552Z</span> <span class="log-info">INFO</span> --- Tomcat initialized with port 8080 (http)</div>
-                <div class="log-line"><span class="log-timestamp">2025-11-29T00:06:58.986Z</span> <span class="log-info">INFO</span> --- Exposing 4 endpoints beneath base path '/actuator'</div>
-                <div class="log-line"><span class="log-timestamp">2025-11-29T00:06:59.138Z</span> <span class="log-info">INFO</span> --- Tomcat started on port 8080 (http)</div>
-                <div class="log-line"><span class="log-timestamp">2025-11-29T00:06:59.157Z</span> <span class="log-info">INFO</span> --- Started DemoApplication in 5.8 seconds ✓</div>
+            <div class="k8s-logo">
+                <img src="/kubernetes-logo.png" alt="Kubernetes Logo">
             </div>
         </header>
 
