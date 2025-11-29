@@ -25,6 +25,7 @@ GitHub → Actions Runner (EKS) → Docker Build → Docker Hub → K8s Deployme
 
 ## 📚 Documentation
 
+- **[SETUP-GUIDE.md](terraform/SETUP-GUIDE.md)** - Complete infrastructure setup with Terraform (recreate everything from scratch)
 - **[APPLICATION.md](docs/APPLICATION.md)** - Spring Boot app details, dependencies, local development
 - **[KUBERNETES.md](docs/KUBERNETES.md)** - K8s resources, deployment configuration, commands
 - **[CICD.md](docs/CICD.md)** - GitHub Actions workflow, pipeline stages, best practices

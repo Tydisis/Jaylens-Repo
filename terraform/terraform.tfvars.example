@@ -1,0 +1,28 @@
+# AWS Configuration
+aws_region = "us-east-1"
+environment = "prod"
+
+# EKS Cluster Configuration
+cluster_name = "cicd-cluster"
+cluster_version = "1.31"
+
+# Network Configuration
+vpc_cidr = "192.168.0.0/16"
+
+# Node Group Configuration
+node_groups = {
+  general = {
+    desired_size   = 3
+    min_size       = 2
+    max_size       = 5
+    instance_types = ["t3.medium"]
+  }
+}
+
+# Grafana Configuration
+grafana_admin_user = "admin"
+grafana_admin_password = "CHANGE_ME"  # Change this!
+
+# GitHub Configuration
+github_token = "ghp_YOUR_TOKEN_HERE"  # Create at https://github.com/settings/tokens
+github_repository = "https://github.com/YOUR_USERNAME/YOUR_REPO"
