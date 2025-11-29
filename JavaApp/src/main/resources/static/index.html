@@ -148,6 +148,31 @@
             text-decoration: underline;
         }
         
+        .logs-container {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid #667eea;
+        }
+        
+        .logs-container .log-line {
+            margin: 0.2rem 0;
+            white-space: nowrap;
+        }
+        
+        .logs-container .log-info {
+            color: #4ec9b0;
+        }
+        
+        .logs-container .log-timestamp {
+            color: #ce9178;
+        }
+        
         footer {
             text-align: center;
             color: white;
@@ -161,10 +186,24 @@
         <header>
             <h1>Welcome to Jaylen's Spring Boot Application</h1>
             <p class="subtitle">Cloud Infrastructure & DevOps Solutions</p>
+            <div class="contact-info" style="margin: 1rem 0;">
+                <a href="mailto:jaylen770@gmail.com">📧 jaylen770@gmail.com</a>
+                <a href="tel:770-243-0235">📱 (770) 243-0235</a>
+                <a href="https://www.linkedin.com/in/jaylen-steward" target="_blank">💼 LinkedIn</a>
+                <a href="https://github.com/Tydisis/Jaylens-Repo" target="_blank">🔗 GitHub</a>
+            </div>
             <span class="status-badge">🟢 Application Running</span>
             <span class="status-badge" id="visitor-badge">👥 Loading visitors...</span>
             <br>
             <a href="/grafana/d/rYdddlPWk/node-exporter-full?orgId=1&from=now-24h&to=now&timezone=browser&var-ds_prometheus=prometheus&var-job=node-exporter&var-nodename=ip-192-168-115-133.ec2.internal&var-node=192.168.115.133:9100&refresh=1m" class="monitoring-button" target="_blank">📊 View Monitoring Dashboard</a>
+            
+            <div class="logs-container">
+                <div class="log-line"><span class="log-timestamp">2025-11-29T00:06:54.618Z</span> <span class="log-info">INFO</span> --- Starting DemoApplication v0.0.1-SNAPSHOT using Java 17</div>
+                <div class="log-line"><span class="log-timestamp">2025-11-29T00:06:57.552Z</span> <span class="log-info">INFO</span> --- Tomcat initialized with port 8080 (http)</div>
+                <div class="log-line"><span class="log-timestamp">2025-11-29T00:06:58.986Z</span> <span class="log-info">INFO</span> --- Exposing 4 endpoints beneath base path '/actuator'</div>
+                <div class="log-line"><span class="log-timestamp">2025-11-29T00:06:59.138Z</span> <span class="log-info">INFO</span> --- Tomcat started on port 8080 (http)</div>
+                <div class="log-line"><span class="log-timestamp">2025-11-29T00:06:59.157Z</span> <span class="log-info">INFO</span> --- Started DemoApplication in 5.8 seconds ✓</div>
+            </div>
         </header>
 
         <div class="content-grid">
@@ -182,13 +221,13 @@
                 </ul>
                 
                 <div class="tech-stack">
-                    <span class="tech-badge">AWS</span>
-                    <span class="tech-badge">Kubernetes</span>
-                    <span class="tech-badge">Docker</span>
-                    <span class="tech-badge">Terraform</span>
-                    <span class="tech-badge">Linux</span>
-                    <span class="tech-badge">Spring Boot</span>
-                    <span class="tech-badge">CI/CD</span>
+                    <a href="https://aws.amazon.com" target="_blank"><span class="tech-badge">AWS</span></a>
+                    <a href="https://kubernetes.io" target="_blank"><span class="tech-badge">Kubernetes</span></a>
+                    <a href="https://www.docker.com" target="_blank"><span class="tech-badge">Docker</span></a>
+                    <a href="https://www.terraform.io" target="_blank"><span class="tech-badge">Terraform</span></a>
+                    <a href="https://www.linux.org" target="_blank"><span class="tech-badge">Linux</span></a>
+                    <a href="https://spring.io/projects/spring-boot" target="_blank"><span class="tech-badge">Spring Boot</span></a>
+                    <a href="https://about.gitlab.com/topics/ci-cd/" target="_blank"><span class="tech-badge">CI/CD</span></a>
                 </div>
             </div>
 
@@ -243,38 +282,29 @@
 
         <div class="card">
             <h2>This Application</h2>
-            <p>This Spring Boot application demonstrates modern cloud-native development practices with automated CI/CD pipelines.</p>
+            <p>This Spring Boot application showcases production-grade cloud-native development practices. It demonstrates end-to-end automation from code commit to production deployment, leveraging modern DevOps tools and AWS infrastructure. The application implements industry best practices for containerization, orchestration, monitoring, and continuous delivery.</p>
             
             <h3>Architecture</h3>
             <ul>
-                <li>Deployed on Amazon EKS (Elastic Kubernetes Service)</li>
-                <li>Exposed via AWS Application Load Balancer</li>
-                <li>Automated builds using GitHub Actions with self-hosted runners</li>
-                <li>Docker-in-Docker for containerized builds on Kubernetes</li>
-                <li>Multi-stage Docker builds for optimized images</li>
-                <li>Prometheus metrics exposed at /actuator/prometheus</li>
-                <li>Grafana dashboards for real-time monitoring</li>
+                <li>The application runs on Amazon EKS (Elastic Kubernetes Service), providing scalable container orchestration with high availability across multiple availability zones.</li>
+                <li>Traffic is routed through an AWS Application Load Balancer, which provides path-based routing to both the application and Grafana monitoring dashboard.</li>
+                <li>GitHub Actions runners execute directly within the Kubernetes cluster, enabling secure and efficient CI/CD workflows without external dependencies.</li>
+                <li>Docker-in-Docker containers allow for isolated, containerized builds within Kubernetes pods, ensuring build environment consistency.</li>
+                <li>Multi-stage Docker builds optimize image size and security by separating build dependencies from runtime requirements.</li>
+                <li>Spring Boot Actuator exposes Prometheus-compatible metrics at /actuator/prometheus, enabling comprehensive application monitoring.</li>
+                <li>Grafana dashboards provide real-time visualization of application performance, resource utilization, and system health metrics.</li>
             </ul>
             
             <h3>Monitoring & Observability</h3>
             <ul>
-                <li>Spring Boot Actuator for health checks and metrics</li>
-                <li>Prometheus for metrics collection and storage</li>
-                <li>Grafana for visualization and alerting</li>
-                <li>Real-time application and infrastructure monitoring</li>
+                <li>Spring Boot Actuator provides production-ready features including health checks, metrics collection, and application insights.</li>
+                <li>Prometheus scrapes metrics every 30 seconds, storing time-series data for historical analysis and alerting.</li>
+                <li>Grafana offers customizable dashboards for visualizing application metrics, infrastructure health, and business KPIs.</li>
+                <li>The monitoring stack enables proactive issue detection and performance optimization through real-time alerting and trend analysis.</li>
             </ul>
             
             <div class="contact-info" style="margin-top: 1.5rem;">
                 <a href="https://github.com/Tydisis/Jaylens-Repo" target="_blank">🔗 View Source Code on GitHub</a>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Contact Information</h2>
-            <div class="contact-info">
-                <a href="mailto:jaylen770@gmail.com">📧 jaylen770@gmail.com</a>
-                <a href="tel:770-243-0235">📱 (770) 243-0235</a>
-                <a href="https://www.linkedin.com/in/jaylen-steward" target="_blank">💼 LinkedIn</a>
             </div>
         </div>
 
