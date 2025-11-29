@@ -133,17 +133,23 @@ terraform {
 
 ## Cost Estimation
 
-**Monthly costs (us-east-1):**
+**Monthly costs (us-east-1) - Cost Optimized:**
 - EKS cluster: $73
-- 3x t3.medium nodes: ~$90
-- NAT Gateways (3): ~$100
+- 3x t3.small spot nodes: ~$23 (70% savings vs on-demand)
+- NAT Gateway (1): ~$33
 - ALB: ~$20
-- **Total: ~$283/month**
+- **Total: ~$149/month**
+
+**Previous configuration:**
+- 3x t3.medium on-demand: $90
+- 3x NAT Gateways: $100
+- **Previous total: ~$283/month**
+- **Savings: $134/month (47%)**
 
 **Cost optimization:**
-- Use single NAT Gateway: Save $67/month
-- Use t3.small nodes: Save $45/month
-- Use Fargate for runners: Variable cost
+- Single NAT Gateway: Save $67/month (risk: single point of failure)
+- Spot instances: Save $67/month (risk: potential interruption)
+- t3.small vs t3.medium: Save $45/month (2GB vs 4GB RAM per node)
 
 ## Destroying Infrastructure
 

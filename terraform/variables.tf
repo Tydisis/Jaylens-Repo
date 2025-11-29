@@ -41,7 +41,7 @@ variable "node_groups" {
       desired_size   = 3
       min_size       = 2
       max_size       = 5
-      instance_types = ["t3.medium"]
+      instance_types = ["t3.small"]
     }
   }
 }

@@ -73,6 +73,7 @@ resource "aws_eks_node_group" "main" {
   }
   
   instance_types = each.value.instance_types
+  capacity_type  = "SPOT"
   
   tags = {
     Name           = "${var.cluster_name}-${each.key}-node"

@@ -9,13 +9,13 @@ cluster_version = "1.31"
 # Network Configuration
 vpc_cidr = "192.168.0.0/16"
 
-# Node Group Configuration
+# Node Group Configuration (Cost Optimized)
 node_groups = {
   general = {
     desired_size   = 3
     min_size       = 2
     max_size       = 5
-    instance_types = ["t3.medium"]
+    instance_types = ["t3.small"]  # Spot instances, ~$0.0104/hour
   }
 }
 
