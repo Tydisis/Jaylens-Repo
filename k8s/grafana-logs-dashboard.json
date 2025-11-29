@@ -1,0 +1,161 @@
+{
+  "dashboard": {
+    "title": "Application Logs",
+    "tags": ["logs", "cloudwatch"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Recent Error Logs",
+        "type": "logs",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0},
+        "targets": [
+          {
+            "refId": "A",
+            "queryMode": "Logs",
+            "region": "us-east-1",
+            "logGroups": [{"arn": "arn:aws:logs:us-east-1:033892318785:log-group:/aws/eks/cicd-cluster/application", "name": "/aws/eks/cicd-cluster/application"}],
+            "expression": "fields @timestamp, kubernetes.pod_name, log | filter log like /ERROR|Exception/ | sort @timestamp desc | limit 50"
+          }
+        ],
+        "options": {
+          "showTime": true,
+          "wrapLogMessage": true,
+          "sortOrder": "Descending"
+        }
+      },
+      {
+        "id": 2,
+        "title": "Log Volume by Level",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "targets": [
+          {
+            "refId": "A",
+            "queryMode": "Logs",
+            "region": "us-east-1",
+            "logGroups": [{"arn": "arn:aws:logs:us-east-1:033892318785:log-group:/aws/eks/cicd-cluster/application", "name": "/aws/eks/cicd-cluster/application"}],
+            "expression": "fields @timestamp | filter log like /ERROR/ | stats count() as errors by bin(5m)",
+            "statsGroups": ["errors"]
+          },
+          {
+            "refId": "B",
+            "queryMode": "Logs",
+            "region": "us-east-1",
+            "logGroups": [{"arn": "arn:aws:logs:us-east-1:033892318785:log-group:/aws/eks/cicd-cluster/application", "name": "/aws/eks/cicd-cluster/application"}],
+            "expression": "fields @timestamp | filter log like /WARN/ | stats count() as warnings by bin(5m)",
+            "statsGroups": ["warnings"]
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "custom": {"drawStyle": "line", "fillOpacity": 10}
+          },
+          "overrides": [
+            {"matcher": {"id": "byName", "options": "errors"}, "properties": [{"id": "color", "value": {"mode": "fixed", "fixedColor": "red"}}]},
+            {"matcher": {"id": "byName", "options": "warnings"}, "properties": [{"id": "color", "value": {"mode": "fixed", "fixedColor": "yellow"}}]}
+          ]
+        }
+      },
+      {
+        "id": 3,
+        "title": "HTTP Requests by Method",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "targets": [
+          {
+            "refId": "A",
+            "queryMode": "Logs",
+            "region": "us-east-1",
+            "logGroups": [{"arn": "arn:aws:logs:us-east-1:033892318785:log-group:/aws/eks/cicd-cluster/application", "name": "/aws/eks/cicd-cluster/application"}],
+            "expression": "fields @timestamp | filter log like /GET|POST|PUT|DELETE/ | parse log /(?<method>GET|POST|PUT|DELETE)/ | stats count() by method, bin(5m)",
+            "statsGroups": ["method"]
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "custom": {"drawStyle": "line", "fillOpacity": 10}
+          }
+        }
+      },
+      {
+        "id": 4,
+        "title": "Spring Boot Application Logs",
+        "type": "logs",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 16},
+        "targets": [
+          {
+            "refId": "A",
+            "queryMode": "Logs",
+            "region": "us-east-1",
+            "logGroups": [{"arn": "arn:aws:logs:us-east-1:033892318785:log-group:/aws/eks/cicd-cluster/application", "name": "/aws/eks/cicd-cluster/application"}],
+            "expression": "fields @timestamp, kubernetes.pod_name, log | filter kubernetes.pod_name like /spring-boot-app/ | sort @timestamp desc | limit 100"
+          }
+        ],
+        "options": {
+          "showTime": true,
+          "wrapLogMessage": true,
+          "sortOrder": "Descending"
+        }
+      },
+      {
+        "id": 5,
+        "title": "Database Connection Errors",
+        "type": "logs",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 24},
+        "targets": [
+          {
+            "refId": "A",
+            "queryMode": "Logs",
+            "region": "us-east-1",
+            "logGroups": [{"arn": "arn:aws:logs:us-east-1:033892318785:log-group:/aws/eks/cicd-cluster/application", "name": "/aws/eks/cicd-cluster/application"}],
+            "expression": "fields @timestamp, log | filter log like /postgres|database|connection/ | filter log like /error|failed|exception/i | sort @timestamp desc | limit 50"
+          }
+        ],
+        "options": {
+          "showTime": true,
+          "wrapLogMessage": true,
+          "sortOrder": "Descending"
+        }
+      },
+      {
+        "id": 6,
+        "title": "Top Request Paths",
+        "type": "table",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 32},
+        "targets": [
+          {
+            "refId": "A",
+            "queryMode": "Logs",
+            "region": "us-east-1",
+            "logGroups": [{"arn": "arn:aws:logs:us-east-1:033892318785:log-group:/aws/eks/cicd-cluster/application", "name": "/aws/eks/cicd-cluster/application"}],
+            "expression": "fields @timestamp | filter log like /GET|POST|PUT|DELETE/ | parse log /(?<method>GET|POST|PUT|DELETE) (?<path>\\/[^ ]*)/ | stats count() as requests by method, path | sort requests desc | limit 20",
+            "statsGroups": ["method", "path", "requests"]
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Logs by Pod",
+        "type": "table",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 32},
+        "targets": [
+          {
+            "refId": "A",
+            "queryMode": "Logs",
+            "region": "us-east-1",
+            "logGroups": [{"arn": "arn:aws:logs:us-east-1:033892318785:log-group:/aws/eks/cicd-cluster/application", "name": "/aws/eks/cicd-cluster/application"}],
+            "expression": "fields kubernetes.pod_name | stats count() as log_count by kubernetes.pod_name | sort log_count desc",
+            "statsGroups": ["kubernetes.pod_name", "log_count"]
+          }
+        ]
+      }
+    ],
+    "refresh": "30s",
+    "time": {"from": "now-1h", "to": "now"},
+    "timepicker": {
+      "refresh_intervals": ["10s", "30s", "1m", "5m", "15m", "30m", "1h"]
+    }
+  },
+  "overwrite": true
+}
