@@ -173,6 +173,37 @@
             color: #ce9178;
         }
         
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        nav h1 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin: 0;
+        }
+        
+        nav a {
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        
+        nav a:hover {
+            transform: translateY(-2px);
+        }
+        
         footer {
             text-align: center;
             color: white;
@@ -183,8 +214,12 @@
 </head>
 <body>
     <div class="container">
+        <nav>
+            <h1>Jaylen's Spring Boot Application Demo</h1>
+            <a href="/grafana/d/rYdddlPWk/node-exporter-full?orgId=1&from=now-24h&to=now&timezone=browser&var-ds_prometheus=prometheus&var-job=node-exporter&var-nodename=ip-192-168-115-133.ec2.internal&var-node=192.168.115.133:9100&refresh=1m" target="_blank">📊 Monitoring Dashboard (continuous/improvement)</a>
+        </nav>
+        
         <header>
-            <h1>Welcome to Jaylen's Spring Boot Application</h1>
             <p class="subtitle">Cloud Infrastructure & DevOps Solutions</p>
             <div class="contact-info" style="margin: 1rem 0;">
                 <a href="mailto:jaylen770@gmail.com">📧 jaylen770@gmail.com</a>
@@ -194,8 +229,6 @@
             </div>
             <span class="status-badge">🟢 Application Running</span>
             <span class="status-badge" id="visitor-badge">👥 Loading visitors...</span>
-            <br>
-            <a href="/grafana/d/rYdddlPWk/node-exporter-full?orgId=1&from=now-24h&to=now&timezone=browser&var-ds_prometheus=prometheus&var-job=node-exporter&var-nodename=ip-192-168-115-133.ec2.internal&var-node=192.168.115.133:9100&refresh=1m" class="monitoring-button" target="_blank">📊 View Monitoring Dashboard</a>
             
             <div class="logs-container">
                 <div class="log-line"><span class="log-timestamp">2025-11-29T00:06:54.618Z</span> <span class="log-info">INFO</span> --- Starting DemoApplication v0.0.1-SNAPSHOT using Java 17</div>
