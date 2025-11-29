@@ -39,7 +39,7 @@ jobs:
     - name: Update Kubernetes deployment
       run: |
         kubectl set image deployment/spring-boot-app spring-boot-app=${{ secrets.DOCKER_USERNAME }}/spring-boot-app:${{ steps.image_tag.outputs.tag }} -n default
-        kubectl rollout status deployment/spring-boot-app -n default --timeout=120s
+        kubectl rollout status deployment/spring-boot-app -n default --timeout=300s
     
     - name: Verify deployment
       run: |
