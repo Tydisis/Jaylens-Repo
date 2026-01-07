@@ -2,13 +2,13 @@
 
 Production-grade Spring Boot application with automated CI/CD pipeline on Amazon EKS.
 
-## 🚀 Live Demo
+##  Live Demo
 
 **Application**: [http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com](http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com) *(Please ask to see the live version as I scale it down for cost savings)*
 
 **Grafana Dashboard**: [http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com/grafana/](http://k8s-mainalb-6fc2b61fbe-699915898.us-east-1.elb.amazonaws.com/grafana/) (continuous/improvement)
 
-## 🏗️ Architecture
+## ️ Architecture
 
 ```
 GitHub → Actions Runner (EKS) → Docker Build → Docker Hub → K8s Deployment → ALB
@@ -23,7 +23,7 @@ GitHub → Actions Runner (EKS) → Docker Build → Docker Hub → K8s Deployme
 - Prometheus + Grafana monitoring
 - AWS Application Load Balancer
 
-## 📚 Documentation
+##  Documentation
 
 - **[SETUP-GUIDE.md](terraform/SETUP-GUIDE.md)** - Complete infrastructure setup with Terraform (recreate everything from scratch)
 - **[APPLICATION.md](docs/APPLICATION.md)** - Spring Boot app details, dependencies, local development
@@ -33,7 +33,7 @@ GitHub → Actions Runner (EKS) → Docker Build → Docker Hub → K8s Deployme
 - **[MONITORING.md](docs/MONITORING.md)** - Observability stack, metrics, validation
 - **[INFRASTRUCTURE.md](docs/INFRASTRUCTURE.md)** - Complete setup guide, EKS cluster, ARC installation
 
-## 🚀 Quick Start
+##  Quick Start
 
 ```bash
 # Local development
@@ -46,7 +46,7 @@ kubectl apply -f k8s/
 kubectl get pods -l app=spring-boot-app
 ```
 
-## 🛠️ Technologies
+## ️ Technologies
 
 **Application**: Spring Boot 4.0, Java 17, Maven  
 **Container**: Docker, Multi-stage builds  
@@ -55,14 +55,14 @@ kubectl get pods -l app=spring-boot-app
 **Monitoring**: Prometheus, Grafana, Actuator  
 **Cloud**: AWS (EKS, ALB, EC2)
 
-## 📊 CI/CD Features
+##  CI/CD Features
 
-✅ Automated testing before deployment  
-✅ Docker layer caching  
-✅ Immutable deployments (commit SHA tags)  
-✅ Zero-downtime rolling updates  
-✅ Self-hosted runners on Kubernetes  
-✅ Full observability stack
+ Automated testing before deployment  
+ Docker layer caching  
+ Immutable deployments (commit SHA tags)  
+ Zero-downtime rolling updates  
+ Self-hosted runners on Kubernetes  
+ Full observability stack
 
 ---
 

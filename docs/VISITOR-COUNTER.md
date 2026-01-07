@@ -60,7 +60,7 @@ The visitor counter tracks page visits and unique visitors without requiring an 
    ↓
 6. Return JSON response
    ↓
-7. JavaScript updates badge: "👥 123 visits | 45 unique"
+7. JavaScript updates badge: " 123 visits | 45 unique"
 ```
 
 ### Rate Limiting Details
